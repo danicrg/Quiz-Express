@@ -201,7 +201,6 @@ exports.randomplay = (req, res, next) => {
 // GET /quizzes/randomcheck/:quizId(\d+)
 exports.randomcheck = (req, res, next) => {
 
-    // TODO
     const {quiz, query} = req;
 
     const answer = query.answer || "";
