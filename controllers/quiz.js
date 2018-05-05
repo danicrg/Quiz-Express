@@ -153,3 +153,37 @@ exports.check = (req, res, next) => {
         answer
     });
 };
+
+// GET /quizzes/randomplay
+exports.randomplay = (req, res, next) => {
+
+    const score = 0;
+
+    models.quiz.findById(1).then(
+        quiz =>{
+            res.render('quizzes/random_play', {
+                quiz,
+                score
+            })
+        }
+    );
+};
+
+// GET /quizzes/randomcheck/:quizId(\d+)
+exports.randomcheck = (req, res, next) => {
+
+    // TODO
+    const {quiz, query} = req;
+    const score = 1;
+
+    const answer = query.answer || "";
+    const result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
+
+    res.render('quizzes/random_result', {
+        quiz,
+        result,
+        answer,
+        score
+    });
+};
+
