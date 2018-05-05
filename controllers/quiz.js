@@ -201,34 +201,17 @@ exports.randomplay = (req, res, next) => {
 // GET /quizzes/randomcheck/:quizId(\d+)
 exports.randomcheck = (req, res, next) => {
 
-    // const {quiz, query} = req;
-    //
-    // const answer = query.answer || "";
-    // const result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
-    // if(result) {
-    //     req.session.randomplay = req.session.randomplay.concat(quiz.id);
-    // };
-    // const score = req.session.randomplay.length;
-    // if(!result) {
-    //     req.session.randomplay = [];
-    // };
-    // res.render('quizzes/random_result', {
-    //     result,
-    //     answer,
-    //     score
-    // });
-
     const {quiz, query} = req;
 
     const answer = query.answer || "";
     const result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
-
-    if(result){
-        if(req.session.randomPlay.indexOf(req.quiz.id)=== -1){
-            req.session.randomPlay = req.session.randomPlay.concat(quiz.id);
-        }
-    }
-    const score = req.session.randomPlay.length;
+    if(result) {
+        req.session.randomplay = req.session.randomplay.concat(quiz.id);
+    };
+    const score = req.session.randomplay.length;
+    if(!result) {
+        req.session.randomplay = [];
+    };
     res.render('quizzes/random_result', {
         result,
         answer,
