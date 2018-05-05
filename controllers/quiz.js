@@ -157,16 +157,45 @@ exports.check = (req, res, next) => {
 // GET /quizzes/randomplay
 exports.randomplay = (req, res, next) => {
 
-    const score = 0;
+    req.session.randomplay = req.session.randomplay || [];
 
-    models.quiz.findById(1).then(
-        quiz =>{
-            res.render('quizzes/random_play', {
-                quiz,
-                score
-            })
+    const score = req.session.randomplay.length;
+
+    models.quiz.count().then(
+        count => {
+            if (!count){
+                res.render('quizzes/random_nomore',{
+                    score
+                })
+            } else{
+
+                if (req.session.randomplay.length === count){
+                    req.session.randomplay = [];
+                    res.render('quizzes/random_nomore',{
+                        score
+                    })
+                } else {
+                    //elegir quiz aleatorio que no se haya respondido ya
+                    random_id = Math.floor(Math.random() * count + 1);
+                    while (req.session.randomplay.includes(random_id)) {
+                        random_id = Math.floor(Math.random() * count + 1);
+                    }
+
+
+                    models.quiz.findById(random_id).then(
+                        quiz => {
+                            res.render('quizzes/random_play', {
+                                quiz,
+                                score,
+                            })
+                        }
+                    )
+                }
+
+            }
         }
-    );
+    )
+
 };
 
 // GET /quizzes/randomcheck/:quizId(\d+)
@@ -174,11 +203,16 @@ exports.randomcheck = (req, res, next) => {
 
     // TODO
     const {quiz, query} = req;
-    const score = 1;
 
     const answer = query.answer || "";
     const result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
-
+    if(result) {
+        req.session.randomplay = req.session.randomplay.concat(quiz.id);
+    };
+    const score = req.session.randomplay.length;
+    if(!result) {
+        req.session.randomplay = [];
+    };
     res.render('quizzes/random_result', {
         quiz,
         result,

@@ -14,9 +14,5 @@ module.exports = function (sequelize, DataTypes) {
             data: {
                 type: DataTypes.STRING(50000)
             },
-            // TODO
-            // randomPlay: {
-            //      type: DataTypes.STRING
-            // }
         });
 };
