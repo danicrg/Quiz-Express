@@ -213,7 +213,6 @@ exports.randomcheck = (req, res, next) => {
         req.session.randomplay = [];
     };
     res.render('quizzes/random_result', {
-        quiz,
         result,
         answer,
         score
