@@ -181,7 +181,6 @@ exports.randomplay = (req, res, next) => {
                         random_id = Math.floor(Math.random() * count + 1);
                     }
 
-
                     models.quiz.findById(random_id).then(
                         quiz => {
                             res.render('quizzes/random_play', {
