@@ -21,7 +21,7 @@ sequelize.import(path.join(__dirname,'session'));
 
 // Create tables
 sequelize.sync()
-    /*.then(()=>sequelize.models.quiz.count())
+    .then(()=>sequelize.models.quiz.count())
     .then(count => {
         if(!count){
             return sequelize.models.quiz.bulkCreate([
@@ -32,7 +32,7 @@ sequelize.sync()
             ]);
         }
 
-    })*/
+    })
     .catch(error => {
         console.log(error);
     })
